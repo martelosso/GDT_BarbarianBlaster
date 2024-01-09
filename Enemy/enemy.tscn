@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://csdg67d40klg6"]
+
+[ext_resource type="Script" path="res://Enemy/enemy.gd" id="1_ubker"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kl1dd"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_knebk"]
+radius = 1.0
+height = 3.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sraog"]
+radius = 1.0
+height = 3.0
+
+[node name="Enemy" type="PathFollow3D"]
+script = ExtResource("1_ubker")
+speed = 5.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+material_override = SubResource("StandardMaterial3D_kl1dd")
+mesh = SubResource("CapsuleMesh_knebk")
+
+[node name="EnemyArea3D" type="Area3D" parent="." groups=["enemy_area"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("CapsuleShape3D_sraog")

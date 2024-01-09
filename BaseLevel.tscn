@@ -1,0 +1,118 @@
+[gd_scene load_steps=10 format=3 uid="uid://c5wgk5dvrbi6d"]
+
+[ext_resource type="MeshLibrary" uid="uid://csatjq8atjifl" path="res://MeshLibraries/SpaceLibrary.tres" id="1_jtj71"]
+[ext_resource type="PackedScene" uid="uid://bg8vpu373wcd7" path="res://RayPickerCamera/ray_picker_camera.tscn" id="1_w1dvm"]
+[ext_resource type="PackedScene" uid="uid://csdg67d40klg6" path="res://Enemy/enemy.tscn" id="2_drcp6"]
+[ext_resource type="PackedScene" uid="uid://ba0t1jfi0fxll" path="res://Base/base.tscn" id="3_leid0"]
+[ext_resource type="Script" path="res://TurretManager.gd" id="5_kvy7i"]
+[ext_resource type="PackedScene" uid="uid://e4tulfmgcmig" path="res://Turret/turret.tscn" id="6_lpumb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x0qcv"]
+albedo_color = Color(0.831373, 0.776471, 0.447059, 1)
+
+[sub_resource type="Environment" id="Environment_7s4yq"]
+
+[sub_resource type="Curve3D" id="Curve3D_2mkuq"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -23, 0, 2, -1, 0, -1, 1, 0, 1, -6, 0, 2, -1, 0, -1, 1, 0, 1, -6, 0, 6, -1, 0, 1, 1, 0, -1, 2, 0, 6, -1, 0, 1, 1, 0, -1, 2, 0, -2, -1, 0, -1, 1, 0, 1, 10, 0, -2, -1, 0, -1, 1, 0, 1, 10, 0, 2, 0, 0, 0, 0, 0, 0, 18, 0, 2),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 8
+
+[node name="BaseLevel" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+material_override = SubResource("StandardMaterial3D_x0qcv")
+size = Vector3(100, 2, 100)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7s4yq")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.761719, 0.647907, 0, -0.647907, 0.761719, 0, 7.50925, 6.70711)
+
+[node name="RayPickerCamera" parent="." node_paths=PackedStringArray("gridmap", "turret_manager") instance=ExtResource("1_w1dvm")]
+gridmap = NodePath("../GridMap")
+turret_manager = NodePath("../TurretManager")
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_jtj71")
+cell_size = Vector3(4, 4, 4)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(65535, 65534, 0, 65531, 65535, 0, 65535, 2, 0, 4, 65535, 0, 65531, 65534, 0, 65531, 1, 0, 65531, 2, 0, 65532, 65534, 0, 65532, 2, 0, 65533, 65534, 0, 65533, 2, 0, 65534, 65534, 0, 65534, 2, 0, 0, 65534, 0, 0, 2, 0, 1, 65534, 0, 1, 2, 0, 2, 65534, 0, 2, 2, 0, 3, 65534, 0, 3, 2, 0, 4, 65534, 0, 4, 1, 0, 4, 2, 0, 65532, 65535, 0, 65533, 65535, 0, 65534, 65535, 0, 65535, 65535, 0, 65535, 0, 0, 65533, 1, 0, 65532, 1, 0, 1, 0, 0, 1, 1, 0, 3, 1, 0, 3, 65535, 0, 2, 1, 0)
+}
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_2mkuq")
+
+[node name="Road" type="CSGPolygon3D" parent="Path3D"]
+polygon = PackedVector2Array(-1, 0, -1, 0.1, 1, 0.1, 1, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 0.5
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+
+[node name="LeftEdge" type="CSGPolygon3D" parent="Path3D"]
+polygon = PackedVector2Array(1.1, 0, 1.1, 0.15, 1, 0.15, 1, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 0.5
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+
+[node name="RightEdge" type="CSGPolygon3D" parent="Path3D"]
+polygon = PackedVector2Array(-1.1, 0, -1.1, 0.15, -0.9, 0.15, -0.9, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 0.5
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+
+[node name="Enemy" parent="Path3D" instance=ExtResource("2_drcp6")]
+transform = Transform3D(-4.37112e-08, 0, -0.999995, 0, 1, 0, 0.999995, 0, -4.37112e-08, -23, 0, 2)
+loop = false
+
+[node name="Enemy2" parent="Path3D" instance=ExtResource("2_drcp6")]
+transform = Transform3D(0.0433365, 0, -0.999055, 0, 1, 0, 0.999055, 0, 0.0433365, -18.0069, 0, 1.7416)
+progress = 5.0
+loop = false
+
+[node name="Enemy3" parent="Path3D" instance=ExtResource("2_drcp6")]
+transform = Transform3D(0.0192951, 0, -0.999809, 0, 1, 0, 0.999809, 0, 0.0192951, -13.0095, 0, 1.57818)
+progress = 10.0
+loop = false
+
+[node name="Enemy4" parent="Path3D" instance=ExtResource("2_drcp6")]
+transform = Transform3D(-0.0611292, 0, -0.998125, 0, 1, 0, 0.998125, 0, -0.0611292, -8.01052, 0, 1.62425)
+progress = 15.0
+loop = false
+
+[node name="Enemy5" parent="Path3D" instance=ExtResource("2_drcp6")]
+transform = Transform3D(-0.977508, 0, 0.210873, 0, 1, 0, -0.210873, 0, -0.977508, -6.23245, 0, 4.78639)
+progress = 20.0
+loop = false
+
+[node name="Base" parent="." instance=ExtResource("3_leid0")]
+
+[node name="TurretManager" type="Node3D" parent="." node_paths=PackedStringArray("enemy_path")]
+script = ExtResource("5_kvy7i")
+turret = ExtResource("6_lpumb")
+enemy_path = NodePath("../Path3D")
