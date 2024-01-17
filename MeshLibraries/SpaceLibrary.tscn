@@ -1,6 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dn75elup1a6nq"]
+[gd_scene load_steps=9 format=3 uid="uid://dn75elup1a6nq"]
+
+[ext_resource type="PackedScene" uid="uid://di4ib7r4bgmpd" path="res://Assets/Tree.glb" id="1_trtkb"]
+[ext_resource type="PackedScene" uid="uid://di4ib7r4bgmpd" path="res://Assets/Rocks.glb" id="2_3eeqf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pde7j"]
+blend_mode = 1
+albedo_color = Color(0.286275, 0.270588, 0.27451, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_vw4ik"]
 material = SubResource("StandardMaterial3D_pde7j")
@@ -10,7 +15,8 @@ size = Vector3(4, 0.1, 4)
 data = PackedVector3Array(-2, 0.05, 2, 2, 0.05, 2, -2, -0.05, 2, 2, 0.05, 2, 2, -0.05, 2, -2, -0.05, 2, 2, 0.05, -2, -2, 0.05, -2, 2, -0.05, -2, -2, 0.05, -2, -2, -0.05, -2, 2, -0.05, -2, 2, 0.05, 2, 2, 0.05, -2, 2, -0.05, 2, 2, 0.05, -2, 2, -0.05, -2, 2, -0.05, 2, -2, 0.05, -2, -2, 0.05, 2, -2, -0.05, -2, -2, 0.05, 2, -2, -0.05, 2, -2, -0.05, -2, 2, 0.05, 2, -2, 0.05, 2, 2, 0.05, -2, -2, 0.05, 2, -2, 0.05, -2, 2, 0.05, -2, -2, -0.05, 2, 2, -0.05, 2, -2, -0.05, -2, 2, -0.05, 2, 2, -0.05, -2, -2, -0.05, -2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cd2oc"]
-albedo_color = Color(0.8, 0.501961, 0.388235, 1)
+transparency = 1
+albedo_color = Color(0.8, 0.501961, 0.388235, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_nh77y"]
 material = SubResource("StandardMaterial3D_cd2oc")
@@ -27,6 +33,7 @@ mesh = SubResource("BoxMesh_vw4ik")
 [node name="StaticBody3D" type="StaticBody3D" parent="FreeSpace"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FreeSpace/StaticBody3D"]
+visible = false
 shape = SubResource("ConcavePolygonShape3D_nrixu")
 
 [node name="TurretBase" type="MeshInstance3D" parent="."]
@@ -35,4 +42,9 @@ mesh = SubResource("BoxMesh_nh77y")
 [node name="StaticBody3D" type="StaticBody3D" parent="TurretBase"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TurretBase/StaticBody3D"]
+visible = false
 shape = SubResource("ConcavePolygonShape3D_gn2ri")
+
+[node name="Tree" parent="." instance=ExtResource("1_trtkb")]
+
+[node name="Rocks" parent="." instance=ExtResource("2_3eeqf")]

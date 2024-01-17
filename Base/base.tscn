@@ -1,23 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://ba0t1jfi0fxll"]
+[gd_scene load_steps=4 format=3 uid="uid://ba0t1jfi0fxll"]
 
 [ext_resource type="Script" path="res://Base/base.gd" id="1_y4s6b"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_52bvi"]
-albedo_color = Color(0.619608, 0.141176, 0, 1)
+[ext_resource type="PackedScene" uid="uid://b6vmhi3wuc6b6" path="res://Assets/Base.glb" id="2_mgxdl"]
+[ext_resource type="FontFile" uid="uid://byyn3a32djd0" path="res://Assets/Asap/static/Asap-Bold.ttf" id="2_phwd0"]
 
 [node name="Base" type="Node3D" groups=["base"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 2)
 script = ExtResource("1_y4s6b")
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-material_override = SubResource("StandardMaterial3D_52bvi")
-radius = 2.0
-height = 4.0
-sides = 32
-
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0)
 billboard = 1
+font = ExtResource("2_phwd0")
 font_size = 512
 outline_size = 64
+
+[node name="Base" parent="." instance=ExtResource("2_mgxdl")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
